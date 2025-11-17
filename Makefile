@@ -39,10 +39,4 @@ ship:
 	nextpnr-ice40 --$(DEVICE) --package cm81   --json $*.json --asc $@ --pcf  $(PIN_DEF)
 
 clean:
-	rm -f *.asc
-	rm -f *.bin
-	rm -f *.blif
 	rm -fr build
-	rm -f timeing.txt
-	rm -f *.json
-	rm -f *.rpt

@@ -1,20 +1,31 @@
 # these are for the nandland ice40 fpga board, swap these out if they're different
 DEVICE = hx1k
 PACKAGE = vq100
+SOURCE = src
+BUILD = build
+
+BUILD_FILENAME = $(addprefix $(BUILD)/,$(FILENAME))
+
+.PHONY: build
+
+build/:
+	mkdir -p build/
 
 lint: $(sv_files)
 	iverilog -Wall -s top -o $(BUILD_DIR)/top $^
 
 # Building
 # note to self, tinyprog does not work for this
-build:
+build: build/
 	@echo "Using $(FILENAME)..."
-	@if [ -z "$(FILENAME)"]; then echo "Usage: make build FILENAME=name"; exit 1; fi
-	yosys -p 'synth_ice40 -top $(FILENAME) -blif $(FILENAME).blif -json $(FILENAME).json' $(FILENAME).v
-	nextpnr-ice40 --hx1k --package vq100 --json $(FILENAME).json --asc  $(FILENAME).asc --pcf  $(FILENAME).pcf 
-	icetime -d hx1k -mtr $(FILENAME).rpt $(FILENAME).asc
-	icepack $(FILENAME).asc $(FILENAME).bin
-	sudo iceprog -p $(FILENAME).bin -d 0403:6010 
+	@if [ -z "$(FILENAME)" ]; then echo "Usage: make build FILENAME=name"; exit 1; fi
+	yosys -p 'synth_ice40 -top $(FILENAME) -blif $(BUILD_FILENAME).blif -json $(BUILD_FILENAME).json' $(SOURCE)/$(FILENAME).v
+	nextpnr-ice40 --hx1k --package vq100 --json $(BUILD_FILENAME).json --asc  $(BUILD_FILENAME).asc --pcf  $(SOURCE)/$(FILENAME).pcf 
+	icetime -d hx1k -mtr $(BUILD_FILENAME).rpt $(BUILD_FILENAME).asc
+	icepack $(BUILD_FILENAME).asc $(BUILD_FILENAME).bin
+	
+ship:
+	iceprog $(FILENAME).bin
 
 %.blif %.json : %.v
 	yosys -p 'synth_ice40 -top top -blif $@ -json $*.json' $<

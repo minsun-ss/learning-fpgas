@@ -19,10 +19,15 @@ lint: $(sv_files)
 build: build/
 	@echo "Using $(FILENAME)..."
 	@if [ -z "$(FILENAME)" ]; then echo "Usage: make build FILENAME=name"; exit 1; fi
-	yosys -p 'synth_ice40 -top $(FILENAME) -blif $(BUILD_FILENAME).blif -json $(BUILD_FILENAME).json' $(SOURCE)/$(FILENAME).v
-	nextpnr-ice40 --hx1k --package vq100 --json $(BUILD_FILENAME).json --asc  $(BUILD_FILENAME).asc --pcf  $(SOURCE)/$(FILENAME).pcf 
-	icetime -d hx1k -mtr $(BUILD_FILENAME).rpt $(BUILD_FILENAME).asc
-	icepack $(BUILD_FILENAME).asc $(BUILD_FILENAME).bin
+	@echo "Running yosys..."
+	@yosys -p 'synth_ice40 -top $(FILENAME) -blif $(BUILD_FILENAME).blif -json $(BUILD_FILENAME).json' $(SOURCE)/$(FILENAME).v 
+	@yosys -p 'read_json $(BUILD_FILENAME).json; stat' > $(BUILD_FILENAME).stat
+	@echo "Running nextpnr..."
+	@nextpnr-ice40 --hx1k --package vq100 --json $(BUILD_FILENAME).json --asc  $(BUILD_FILENAME).asc --pcf  $(SOURCE)/$(FILENAME).pcf 
+	@echo "Running icetime..."
+	@icetime -d hx1k -mtr $(BUILD_FILENAME).rpt $(BUILD_FILENAME).asc
+	@echo "Running icepack..."
+	@icepack $(BUILD_FILENAME).asc $(BUILD_FILENAME).bin
 	
 ship:
 	sudo iceprog $(BUILD_FILENAME).bin

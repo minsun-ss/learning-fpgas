@@ -1,0 +1,122 @@
+# Chapter Notes
+
+If you are going through the Getting Started with FPGAs book and are following along by using the open source Project iCEStorm flow, I've marked some of the alternatives or notes in here that I encountered while going through the book; hopefully they help you too.
+
+## Chapter 2:
+
+If you are using iceprog to load your bin to your fpga, you shouldn't need to be fiddling with settings, but if you do and need to identify the USB port, it's USB1, *not* USB0, for the nandland go board. This also mentioned in the book (see page 28).
+
+## Chapter 3:
+
+There is a discussion in chapter 3 about a report tool. A similar report can be retrieved from the yosys stat command; in the make build command there is an output that generates a .stat file for you to read. Here's a sample snippet of the yosys stat board that gets you to similar information:
+
+```
+=== And_Gate_Project ===
+
+        +----------Local Count, excluding submodules.
+        | 
+        8 wires
+        8 wire bits
+        8 public wires
+        8 public wire bits
+        8 ports
+        8 port bits
+        1 cells
+        1   SB_LUT4
+
+End of script. Logfile hash: b7877c97f5, CPU: user 0.01s system 0.00s, MEM: 13.63 MB peak
+```
+
+## Chapter 4:
+
+This chapter talks about a P&R flow print out that talks 1) pin palcemen and 2) timing. These can be replaced with the --log output from nextpnr, which is already included in the `make build` command and outputs to a *.log file:
+
+```
+Info: constrained 'o_LED_2' to bel 'X13/Y7/io0'
+Info: constrained 'o_LED_3' to bel 'X13/Y7/io1'
+Info: constrained 'o_LED_4' to bel 'X13/Y8/io0'
+Info: constrained 'i_Switch_1' to bel 'X13/Y4/io1'
+Info: constrained 'i_Switch_2' to bel 'X13/Y3/io1'
+Info: constrained 'i_Switch_3' to bel 'X13/Y6/io0'
+Info: constrained 'i_Switch_4' to bel 'X13/Y4/io0'
+
+Info: Packing constants..
+Info: Packing IOs..
+Info: Packing LUT-FFs..
+Info:        1 LCs used as LUT4 only
+Info:        0 LCs used as LUT4 and DFF
+Info: Packing non-LUT FFs..
+Info:        0 LCs used as DFF only
+Info: Packing carries..
+Info:        0 LCs used as CARRY only
+Info: Packing indirect carry+LUT pairs...
+Info:        0 LUTs merged into carry LCs
+Info: Packing RAMs..
+Info: Placing PLLs..
+Info: Packing special functions..
+Info: Packing PLLs..
+Info: Promoting globals..
+Info: Constraining chains...
+Info:        0 LCs used to legalise carry chains.
+Info: Checksum: 0xb9179925
+
+Info: Device utilisation:
+Info:            ICESTORM_LC:       3/   1280     0%
+Info:           ICESTORM_RAM:       0/     16     0%
+Info:                  SB_IO:       8/    112     7%
+Info:                  SB_GB:       0/      8     0%
+Info:           ICESTORM_PLL:       0/      1     0%
+Info:            SB_WARMBOOT:       0/      1     0%
+
+Info: Placed 8 cells based on constraints.
+Info: Creating initial analytic placement for 1 cells, random placement wirelen = 19.
+Info:     at initial placer iter 0, wirelen = 11
+Info:     at initial placer iter 1, wirelen = 11
+Info:     at initial placer iter 2, wirelen = 11
+Info:     at initial placer iter 3, wirelen = 11
+Info: Running main analytical placer, max placement attempts per cell = 10000.
+Info:     at iteration #1, type ICESTORM_LC: wirelen solved = 11, spread = 11, legal = 14; time = 0.00s
+Info:     at iteration #2, type ICESTORM_LC: wirelen solved = 14, spread = 14, legal = 14; time = 0.00s
+Info: HeAP Placer Time: 0.00s
+Info:   of which solving equations: 0.00s
+Info:   of which spreading cells: 0.00s
+Info:   of which strict legalisation: 0.00s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 0, wirelen = 14
+Info:   at iteration #2: temp = 0.000000, timing cost = 0, wirelen = 14 
+Info: SA placement time 0.00s
+
+Info: No Fmax available; no interior timing paths found in design.
+Info: Checksum: 0xa5cb6749
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 6 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:          6 |        0          6 |    0     6 |         0|       0.00       0.00|
+Info: Routing complete.
+Info: Router1 time 0.00s
+Info: Checksum: 0x22f93c61
+
+Info: Critical path report for cross-domain path '<async>' -> '<async>':
+Info:       type curr  total name
+Info:     source  0.00  0.00 Source i_Switch_1$sb_io.D_IN_0
+Info:    routing  1.49  1.49 Net i_Switch_1$SB_IO_IN (13,4) -> (12,6)
+Info:                          Sink o_LED_1_SB_LUT4_O_LC.I3
+Info:                          Defined in:
+Info:                               src/And_Gate_Project.v:2.9-2.19
+Info:      logic  0.31  1.81 Source o_LED_1_SB_LUT4_O_LC.O
+Info:    routing  0.59  2.39 Net o_LED_1$SB_IO_OUT (12,6) -> (13,6)
+Info:                          Sink o_LED_1$sb_io.D_OUT_0
+Info:                          Defined in:
+Info:                               src/And_Gate_Project.v:6.10-6.17
+Info: 0.31 ns logic, 2.08 ns routing
+
+Info: No Fmax available; no interior timing paths found in design.
+
+Info: Program finished normally.
+```
+
+This chapter also discusses the accidental creation of a latch, and the warnings you get.

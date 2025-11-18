@@ -1,10 +1,4 @@
-#!/bin/bash
-
-# Installing the appropriate files
-PYTHON_DIRECTORY="/home/ssung/.pyenv/versions/3.12.9"
-PYTHON_EXECUTABLE="$PYTHON_DIRECTORY/bin/python3.12"
-PYTHON_RUNPATH="$PYTHON_DIRECTORY/lib"
-
+#!/bin/sh
 
 for arg in "$@"; do
    case $arg in
@@ -31,20 +25,33 @@ elif [ "$(uname -s)" == "Darwin" ]; then
     fi
 fi
 
+echo "LATTICE TOOL INSTALL: OS FAMILY - ${OS_FAMILY}"
+
+# Installing the appropriate files
+# we will use the existing python env to be your linked item so... sorry
+PYTHON_DIRECTORY=$(which python)
+if echo $(which python) | grep -q "pyenv"; then
+    echo "LATTICE TOOL INSTALL: Pyenv found, looking for absolute path..."
+    PYTHON_DIRECTORY=$(dirname $(dirname $(pyenv which python)))
+else
+    PYTHON_DIRECTORY=$(dirname $(dirname $(which python)))
+fi
+
+echo "LATTICE TOOL INSTALL: Path used to link python - $PYTHON_DIRECTORY"
+PYTHON_EXECUTABLE="$PYTHON_DIRECTORY/bin/python"
+PYTHON_RUNPATH="$PYTHON_DIRECTORY/lib"
+
 echo "LATTICE TOOL INSTALL: Making sure dev libraries are installed..."
 
-# if grep -q "debian\|ubuntu" /etc/os-release; then
-#     OS_FAMILY="debian"
-#     sudo apt install -y autoconf gperf make gcc g++ bison flex build-essential \
-#     clang libreadline-dev gawk tcl-dev libffi-dev git mercurial graphviz  \
+# if [ $OS_FAMILY = "debian" ]; then
+#     sudo apt update && sudo apt install -y autoconf gperf make gcc g++ bison flex \
+#     build-essential clang libreadline-dev gawk tcl-dev libffi-dev git mercurial graphviz  \
 #     xdot pkg-config libftdi-dev libboost-all-dev cmake libeigen3-dev libgtk-3-dev
-# elif grep -q "arch" /etc/os-release; then
-#     OS_FAMILY="arch"
+# elif [ $OS_FAMILY = "arch" ]; then
 #     pacman -S autoconf gperf make gcc g++ bison flex build-essential \
 #     clang libreadline-dev gawk tcl-dev libffi-dev git mercurial graphviz  \
 #     xdot pkg-config libftdi-dev libboost-all-dev cmake libeigen3-dev
-# elif grep -qi "fedora\|rhel\|centos" /etc/os-release; then
-#     OS_FAMILY="redhat"
+# elif [ $OS_FAMILY = "redhat" ]; then
 #     dnf install autoconf gperf make gcc g++ bison flex build-essential \
 #     clang libreadline-dev gawk tcl-dev libffi-dev git mercurial graphviz  \
 #     xdot pkg-config libftdi-dev libboost-all-dev cmake libeigen3-dev
@@ -67,12 +74,12 @@ else
 fi
 
 # setting up icestorm
-echo "LATTICE TOOL INSTALL: Checking on Icestorm Tools..."
+echo "LATTICE TOOL INSTALL: Checking on Icestorm tools..."
 command -v iceprog >/dev/null 2>&1
 ICESTORM_TOOLS_STATUS=$?
 
 if [ "$ICESTORM_TOOLS_STATUS" -eq 0 ]; then
-    echo "LATTICE TOOL INSTALL: icestorm tools verified to have been installed, skipping."
+    echo "LATTICE TOOL INSTALL: Icestorm tools verified to have been installed, skipping."
 else
     cd /tmp && git clone https://github.com/YosysHQ/icestorm.git icestorm
     cd /tmp/icestorm
@@ -98,7 +105,7 @@ else
 fi
 
 # setting up nextpnr
-echo "LATTICE TOOL INSTALL: Checking on nextpnr (skipping arachne)"
+echo "LATTICE TOOL INSTALL: Checking on nextpnr (skipping arachne)..."
 command -v nextpnr-ice40 >/dev/null 2>&1
 NEXTPNR_STATUS=$?
 
@@ -121,3 +128,5 @@ else
     echo "LATTICE TOOL INSTALL: setting up udev rules for lattice boards"
     cd tools && sudo cp tools/53-lattice-ftdi.rules ~/etc/udev/rules.d/
 fi
+
+echo "LATTICE TOOL INSTALL: Completed install of all tooling!"

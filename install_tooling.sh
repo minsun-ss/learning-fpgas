@@ -50,4 +50,8 @@ cd /tmp/nextpnr
 cmake -CMAKE_BINARY_DIR  build -DARCH=ice40 -DCMAKE_INSTALL_PREFIX=/usr/local . -B build
 cmake --build build
 make -j$(nproc)
-sudo make install
+isudo make install
+
+# setting up the lattice rules
+echo "INSTALL TOOLING: setting up udev rules for lattice boards"
+cd tools && sudo cp 53-lattice-ftdi.rules ~/etc/udev/rules.d/

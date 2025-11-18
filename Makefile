@@ -30,7 +30,7 @@ build: build/
 	@icepack $(BUILD_FILENAME).asc $(BUILD_FILENAME).bin
 	
 ship:
-	sudo iceprog $(BUILD_FILENAME).bin
+	iceprog $(BUILD_FILENAME).bin
 
 %.blif %.json : %.v
 	yosys -p 'synth_ice40 -top top -blif $@ -json $*.json' $<

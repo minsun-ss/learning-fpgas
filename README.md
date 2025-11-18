@@ -31,6 +31,8 @@ Additional notes for Debian 13 (Trixie) users:
 
 Aside from the nextpnr issue, the rest of the suites installed fine.
 
+**Extra note**: part of the install.sh tools includes copying a 53-lattice-ftdi rules to your udev so you don't need sudo to run iceprog.
+
 # To Run
 
 yosys should be installed as part of the [OSS suite](https://github.com/YosysHQ/oss-cad-suite-build/?tab=readme-ov-file). The tar should be unpacked in /opt/oss-cad-suite. To activate the oss-cad-suite:
@@ -55,4 +57,9 @@ If you need to identify the USB port, it's USB1, *not* USB0, for the nandland go
 - Work through the book
 - Write a better makefile for fast workflow
 
+# Some alternate equivalents as you go through the chapters
+
+## Chapter 3:
+
+There is a discussion in chapter 3 about a report tool. A similar report can be retrieved from the yosys stat command; in the make build command there is an output that generates a .stat file for you to read. There is also a .rpt file generated that also details some hot path information as well, but not immediately directly related to the report
 

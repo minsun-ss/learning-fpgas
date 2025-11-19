@@ -15,11 +15,17 @@ A note about the bewildering variety of tools listed; many of them overlap, e.g.
 
 The tools suggested for the workflow below:
 
-- iverilog (icarus verilog) https://steveicarus.github.io/iverilog/usage/installation.html
+For synthesizing, placing, routing and programming:
+
 - project icestorm tools: https://prjicestorm.readthedocs.io/en/latest/overview.html
-- gtkwave (wave viewer) : https://gtkwave.sourceforge.net/
 - yosys (synthsiser): https://github.com/YosysHQ/yosys - if you want to make sure you have access to all these tools you can either install to /usr or just source the folder (suggested to put it in /opt).
 - nextpnr (place and route): https://github.com/YosysHQ/nextpnr
+
+For simulation and testbench: 
+
+- iverilog (icarus verilog) https://steveicarus.github.io/iverilog/usage/installation.html
+- gtkwave (wave viewer) : https://gtkwave.sourceforge.net/
+
 
 A note about Project Icestorm recommendations: it suggests installing arachne and nextpnr, but in 2025 you really only need nextpnr (arachne is deprecated). 
 
@@ -49,14 +55,4 @@ make build
 
 If you need to identify the USB port, it's USB1, *not* USB0, for the nandland go board. This also mentioned in the book (see page 28). iceprog does not care, it will automatically find it for you, but if you have trouble with the device being recognized, then this is what you should set.
 
-# To Do
-- Replacing the Lattice workflow for the Nandland Go board
-- Write an article on that
-- Work through the book
-- Write a better makefile for fast workflow
-
-# Some alternate equivalents as you go through the chapters
-
-## Chapter 3:
-
-There is a discussion in chapter 3 about a report tool. A similar report can be retrieved from the yosys stat command; in the make build command there is an output that generates a .stat file for you to read. There is also a .rpt file generated that also details some hot path information as well, but not immediately directly related to the report
+# Current Chapter Work: 5

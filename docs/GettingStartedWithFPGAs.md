@@ -29,7 +29,7 @@ End of script. Logfile hash: b7877c97f5, CPU: user 0.01s system 0.00s, MEM: 13.6
 
 ## Chapter 4:
 
-This chapter talks about a P&R flow print out that talks 1) pin palcemen and 2) timing. These can be replaced with the --log output from nextpnr, which is already included in the `make build` command and outputs to a *.log file:
+This chapter talks about a P&R flow print out that talks 1) pin placement and 2) timing. These can be replaced with the --log output from nextpnr, which is already included in the `make build` command and outputs to a *.log file:
 
 ```
 Info: constrained 'o_LED_2' to bel 'X13/Y7/io0'
@@ -120,3 +120,19 @@ Info: Program finished normally.
 ```
 
 This chapter also discusses the accidental creation of a latch, and the warnings you get.
+
+## Chapter 5:
+
+The alternate to using EDA Playground is using a combination of Icarus Verilog (iverilog) tooling + GTKwave for viewing waveforms. The process in replicating the EDA Playground experience is:
+
+- compiling first with iverilog
+- running simulations with verilog virtual processor (VVP); and
+- viewing the waveforms generated from the dumpfile produced by vvp (whether automatically or via a directive in your test bench). 
+
+Some notes here:
+
+- I have a `make sim` command that takes the entirety of your testbench (*.sv files - assuming here you are using System Verilog here, as in the book, plus *v files), simulates it, and provides a view of the gtkwave forms if generated. For ease of use the test bench module is simply the name of the project + _TB, e.g., And_Gate_Project should be And_Gate_Project_TB module for the test bench.  
+- This is not required in the book, but to make gtkwave easier to read, I've arbitrarily added at the top of the *v and *sv files the appropriate `timescale` ranges as needed for the simulation; otherwise gtkwave defaults to seconds. Realistically for your FPGA beginner projects there aren't going to be many things outside of the ns or maybe microsecond range...? (For the projects in Chapter 5, 1ns/1ns works.)
+- There are a bunch of ugly warnings for gtkwave if you are using a diff versoin of glibc; don't mind them and in any case I silenced them in the output since they don't impact its use. You can also just install it directly otherwise (very easy).
+
+![gtkwaveform](waveforms.png)

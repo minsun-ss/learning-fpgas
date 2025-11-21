@@ -1,6 +1,6 @@
 # Chapter Notes
 
-If you are going through the Getting Started with FPGAs book and are following along by using the open source Project iCEStorm flow, I've marked some of the alternatives or notes in here that I encountered while going through the book; hopefully they help you too.
+If you are going through the [Getting Started with FPGAs](https://nostarch.com/gettingstartedwithfpgas) book and are following along by using the open source Project iCEStorm flow, I've marked some of the alternatives or notes in here that I encountered while going through the book; hopefully they help you too.
 
 ## Chapter 2:
 
@@ -132,16 +132,16 @@ The alternate to using EDA Playground is using a combination of Icarus Verilog (
 Some notes here:
 
 - I have a `make sim` command that takes the entirety of your testbench (*.sv files - assuming here you are using System Verilog here, as in the book, plus *v files), simulates it, and provides a view of the gtkwave forms if generated. For ease of use the test bench module is simply the name of the project + _TB, e.g., And_Gate_Project should be And_Gate_Project_TB module for the test bench.  
-- This is not required in the book, but to make gtkwave easier to read, I've arbitrarily added at the top of the *v and *sv files the appropriate `timescale` ranges as needed for the simulation; otherwise gtkwave defaults to seconds. Realistically for your FPGA beginner projects there aren't going to be many things outside of the ns or maybe microsecond range...? (For the projects in Chapter 5, 1ns/1ns works.)
-- There are a bunch of ugly warnings for gtkwave if you are using a diff versoin of glibc; don't mind them and in any case I silenced them in the output since they don't impact its use. You can also just install it directly otherwise (very easy).
+- This is not required in the book, but to make gtkwave easier to read, I've arbitrarily added at the top of the *v and *sv files the appropriate `timescale` ranges as needed for the simulation; otherwise gtkwave defaults to seconds. Realistically for your FPGA beginner projects there aren't going to be many things outside of the ns or maybe microsecond range...? For the projects in Chapter 5, though, 1ns/1ns works.
+- There are a bunch of ugly warnings for gtkwave if you are using a different version of glibc; don't mind them and in any case I silenced them in the output since they don't impact its use. You can also just install it directly otherwise (very easy).
 
-![gtkwaveform](waveforms.png)
+![gtkwaveform](imgs/waveforms.png)
 
-Regarding the self testbench section: assert statements (as depicted in the code) require the flag -s2005-sv or greater to be used. I used the -s2012 command; it's already part of the `make sim` command; without it, the test bench code won't run. The errors you get are similar enough to what is published in the book, although it doesn't helpfully specify that it's an assert that fails, only that your test bench has failed:
+Regarding the self testbench section: assert statements (as depicted in the code) require the flag -s2005-sv or greater to be used. I used the -s2012 command; it's already part of the `make sim` command; without it, the test bench code won't run. The errors you get on failing an assertion are similar enough to what is published in the book, albeit a little less descriptive:
 
 ```
 ERROR: src/And_Gate_Project/And_Gate_Project.sv:32: 
        Time: 40  Scope: And_Gate_Project_TB
 ```
 
-Then on the section of formal verification, the book only lightly touches on it. Not sure which direction you will go in on formal verification when you get to that point, there's yosys-SMTBMC. But since I am learning Haskell around the same time, there's also Clash to consider as well.
+Then on the section of formal verification, the book only lightly touches on it. Not sure which direction you will go in on formal verification when you get to that point, there's [Symbyosys](https://yosyshq.readthedocs.io/en/latest/) (yosys-SMTBMC). But since I am learning Haskell around the same time, there's also [Clash](https://clash-lang.org/) to consider as well.

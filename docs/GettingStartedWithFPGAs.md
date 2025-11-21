@@ -136,3 +136,12 @@ Some notes here:
 - There are a bunch of ugly warnings for gtkwave if you are using a diff versoin of glibc; don't mind them and in any case I silenced them in the output since they don't impact its use. You can also just install it directly otherwise (very easy).
 
 ![gtkwaveform](waveforms.png)
+
+Regarding the self testbench section: assert statements (as depicted in the code) require the flag -s2005-sv or greater to be used. I used the -s2012 command; it's already part of the `make sim` command; without it, the test bench code won't run. The errors you get are similar enough to what is published in the book, although it doesn't helpfully specify that it's an assert that fails, only that your test bench has failed:
+
+```
+ERROR: src/And_Gate_Project/And_Gate_Project.sv:32: 
+       Time: 40  Scope: And_Gate_Project_TB
+```
+
+Then on the section of formal verification, the book only lightly touches on it. Not sure which direction you will go in on formal verification when you get to that point, there's yosys-SMTBMC. But since I am learning Haskell around the same time, there's also Clash to consider as well.

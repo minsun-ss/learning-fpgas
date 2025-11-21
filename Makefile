@@ -22,7 +22,7 @@ build/:
 sim: $(svfiles)
 	@echo "BUILD: Building $(PROJ) with iverilog..."
 	echo $(svfiles)
-	@iverilog -Wall -s $(PROJ)_TB -o $(BUILD)/$(PROJ) $^
+	@iverilog -Wall -g2012 -s $(PROJ)_TB -o $(BUILD)/$(PROJ) $^
 	@echo "SIMULATE: running vvp"
 	@vvp $(BUILD)/$(PROJ)
 	@echo "WAVEFORM VIEW: check to see if there's a vcd to display..."
@@ -47,7 +47,7 @@ build: build/ $(buildfiles) $(topfile)
 
 ship:
 	@echo "PROGRAMMING: programming fpga..."
-	iceprog $(BUILD_FILENAME).bin
+	@iceprog $(BUILD)/$(PROJ).bin
 
 %.blif %.json : %.v
 	yosys -p 'synth_ice40 -top top -blif $@ -json $*.json' $<

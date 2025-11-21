@@ -26,24 +26,34 @@ For simulation and testbench:
 - iverilog (icarus verilog) https://steveicarus.github.io/iverilog/usage/installation.html
 - gtkwave (wave viewer) : https://gtkwave.sourceforge.net/
 
-
 A note about Project Icestorm recommendations: it suggests installing arachne and nextpnr, but in 2025 you really only need nextpnr (arachne is deprecated). 
 
+If you want to build and install the tools separately, or just want the latest version, here are my notes for them when I did it; rather fortunately (unfortunately?) I did the building before realizing they were all already in the oss-cad-suite.
+
 Notes for Nextpnr: 
-- NextPNR requires the DARCH flag to be set for building. `cmake -DARCH=ice40 -DCMAKE_INSTALL_PREFIX=/usr/local .` For Debian, this didn't work out of the box for me; I had to add the specificationn of a separate build folder to make work, which all following commands afterward must be in to run (e.g., make build and make install)
+- NextPNR requires the DARCH flag to be set for building for iCE40 boards. `cmake -DARCH=ice40 -DCMAKE_INSTALL_PREFIX=/usr/local .` For Debian, this didn't work out of the box for me; I had to add the specification of a separate build folder to make work, which all following commands afterward must be in to run (e.g., make build and make install)
 
 ```
 # cmake -DARCH=ice40 -DCMAKE_INSTALL_PREFIX=/usr/local . -B build
 # cd build && sudo make build
 ```
 
+Due to its reliance on locating python for its build, if you have a specialized set up for your python environments and don't rely on system python at all (e.g., pyenv, uv), you'll need to specify your specific location in the variable PYTHON_ENVIRONMENT. I keep a pyenv for this and you'll have to call `pyenv which python` to get the location of your python binaries instead. 
+
 # To Run
 
 yosys should be installed as part of the [OSS suite](https://github.com/YosysHQ/oss-cad-suite-build/?tab=readme-ov-file). The tar should be unpacked in /opt/oss-cad-suite. To activate the oss-cad-suite:
 
 ```
-fpgashell
+source oss-cad-suite/environment
 ```
+
+Simluating and running test benches:
+```
+make sim PROJ=ProjectName
+```
+
+This will simulate all *.v and *.sv files in src/ProjectName folder. If you have a _Top module specified, the filename should also contain _Top and it will default to that as the top module; if it's not included it will use the project name as the topmost module.
 
 Building an existing FPGA workflow. This will also move it to fpga as well using iceprog.
 
@@ -55,4 +65,4 @@ make build
 
 If you need to identify the USB port, it's USB1, *not* USB0, for the nandland go board. This also mentioned in the book (see page 28). iceprog does not care, it will automatically find it for you, but if you have trouble with the device being recognized, then this is what you should set.
 
-# Current Chapter Work: 5
+# Current Chapter Work: 5s

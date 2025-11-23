@@ -148,6 +148,8 @@ Then on the section of formal verification, the book only lightly touches on it.
 
 ## Chapter 6
 
+### LSFR Project 
+
 If you've been making *.v files for your builds, you'll run into an error in the Count_and_Toggle along the lines of this:
 
 ```
@@ -167,3 +169,7 @@ module Count_And_Toggle #(parameter COUNT_LIMIT = 10)
 ```
 
 And then everything should compile normally. It might be a typo; the later implementations described in the chapter (e.g., RAM_2Port) use parameter.
+
+### RAM_2Port & FIFO
+
+For RAM_2Port & FIFO, timescale 1ns/1ns was added for the testbenches (these are the ones lifted directly from the [repo](https://github.com/nandland/getting-started-with-fpgas) since they are not in the book.)

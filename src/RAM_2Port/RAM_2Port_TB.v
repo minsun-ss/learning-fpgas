@@ -1,7 +1,3 @@
-// Russell Merrick - http://www.nandland.com
-//
-// Dual Port RAM testbench.
-
 `timescale 1ns/1ns
 
 module RAM_2Port_TB ();

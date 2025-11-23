@@ -9,18 +9,14 @@ module Demux_LFSR_Project_Top
  output o_LED_4
 );
 
-reg r_LFSR_Toggle = 1'b0;
-wire w_LFSR_Done;
+localparam COUNT_LIMIT = 4194303;
 
-LFSR_22 LFSR_Inst
+wire w_Counter_Toggle;
+
+Count_And_Toggle #(.COUNT_LIMIT(COUNT_LIMIT)) Toggle_Counter
 (.i_Clk(i_Clk),
-.o_LFSR_Data(),
-.o_LFSR_Done(w_LFSR_Done));
-always @(posedge i_Clk)
-begin
-    if (w_LFSR_Done)
-        r_LFSR_Toggle <= !r_LFSR_Toggle;
-    end
+ .i_Enable(1'b1),
+ .o_Toggle(w_Counter_Toggle));
 
 Demux_1_To_4 Demux_Inst
 (

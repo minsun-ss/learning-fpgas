@@ -145,3 +145,25 @@ ERROR: src/And_Gate_Project/And_Gate_Project.sv:32:
 ```
 
 Then on the section of formal verification, the book only lightly touches on it. Not sure which direction you will go in on formal verification when you get to that point, there's [Symbyosys](https://yosyshq.readthedocs.io/en/latest/) (yosys-SMTBMC). But since I am learning Haskell around the same time, there's also [Clash](https://clash-lang.org/) to consider as well.
+
+## Chapter 6
+
+If you've been making *.v files for your builds, you'll run into an error in the Count_and_Toggle along the lines of this:
+
+```
+ERROR: In pure Verilog (not SystemVerilog), parameter/localparam with an initializer must use the parameter/localparam keyword
+```
+
+The fix for this is simply changing the first line of the book code to denote that the COUNT_LIMIT is a parameter:
+
+```
+module Count_And_Toggle #(COUNT_LIMIT = 10)
+```
+
+to 
+
+```
+module Count_And_Toggle #(parameter COUNT_LIMIT = 10)
+```
+
+And then everything should compile normally. It might be a typo; the later implementations described in the chapter (e.g., RAM_2Port) use parameter.

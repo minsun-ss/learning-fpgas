@@ -129,7 +129,7 @@ This chapter also discusses the accidental creation of a latch, and the warnings
 Latch generated from always block for signal o_Q
 ```
 
-But in the yosys errors, you end up with errors later in the process with regards to timing since you end up creating a combinatorial loops that require on prior state. A modified equivalent module was created in the repo (src/Danger_Latch) which, if you run make build on, you'll end up throwing these errors instead:
+But in oss tooling, you end up with errors later in the process with regards to timing since you end up creating a combinatorial loop that require knowledge of a prior state. A modified equivalent module was created in the repo (src/Danger_Latch) which, if you run make build on, you'll end up throwing these errors instead:
 
 ```
 SYNTHESIS:     Running yosys ...
@@ -141,7 +141,7 @@ ERROR: Timing analysis failed due to combinational loops.
 0 warnings, 1 error
 ```
 
-I think this set of errors is slightly less clear, but worth demonstrating to see what you should be on the lookout for? y
+I think these errors are slightly less clear, but worth demonstrating to see what you should be on the lookout for. 
 
 ## Chapter 5:
 

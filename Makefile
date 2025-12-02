@@ -53,7 +53,7 @@ ship:
 	yosys -p 'synth_ice40 -top top -blif $@ -json $*.json' $<
 
 %.asc: $(PIN_DEF) %.blif %.json
-	nextpnr-ice40 --$(DEVICE) --package cm81   --json $*.json --asc $@ --pcf  $(PIN_DEF)
+	nextpnr-ice40 --$(DEVICE) --package $(PACKAGAE)  --json $*.json --asc $@ --pcf  $(PIN_DEF)
 
 clean:
 	rm -fr build

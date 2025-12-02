@@ -2,6 +2,10 @@
 
 If you are going through the [Getting Started with FPGAs](https://nostarch.com/gettingstartedwithfpgas) book and are following along by using the open source Project iCEStorm flow, I've marked some of the alternatives or notes in here that I encountered while going through the book; hopefully they help you too.
 
+## Chapter 1:
+
+No additional notes required here.
+
 ## Chapter 2:
 
 If you are using iceprog to load your bin to your fpga, you shouldn't need to be fiddling with settings, but if you do and need to identify the USB port, it's USB1, *not* USB0, for the nandland go board. This also mentioned in the book (see page 28).
@@ -119,7 +123,25 @@ Info: No Fmax available; no interior timing paths found in design.
 Info: Program finished normally.
 ```
 
-This chapter also discusses the accidental creation of a latch, and the warnings you get.
+This chapter also discusses the accidental creation of a latch, and the warnings you get. In the book this seems kind of pretty clear: 
+
+```
+Latch generated from always block for signal o_Q
+```
+
+But in the yosys errors, you end up with errors later in the process with regards to timing since you end up creating a combinatorial loops that require on prior state. A modified equivalent module was created in the repo (src/Danger_Latch) which, if you run make build on, you'll end up throwing these errors instead:
+
+```
+SYNTHESIS:     Running yosys ...
+Warning: wire '\o_Segment1_A' is assigned in a block at src/Danger_Latch/Danger_Latch.v:9.7-9.27.
+Warning: wire '\o_Segment1_A' is assigned in a block at src/Danger_Latch/Danger_Latch.v:11.7-11.27.
+Warning: wire '\o_Segment1_A' is assigned in a block at src/Danger_Latch/Danger_Latch.v:13.7-13.27.
+PLACE & ROUTE: Running nextpnr...
+ERROR: Timing analysis failed due to combinational loops.
+0 warnings, 1 error
+```
+
+I think this set of errors is slightly less clear, but worth demonstrating to see what you should be on the lookout for? 
 
 ## Chapter 5:
 

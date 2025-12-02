@@ -141,7 +141,7 @@ ERROR: Timing analysis failed due to combinational loops.
 0 warnings, 1 error
 ```
 
-I think this set of errors is slightly less clear, but worth demonstrating to see what you should be on the lookout for? 
+I think this set of errors is slightly less clear, but worth demonstrating to see what you should be on the lookout for? y
 
 ## Chapter 5:
 
@@ -195,3 +195,7 @@ And then everything should compile normally. It might be a typo; the later imple
 ### RAM_2Port & FIFO
 
 For RAM_2Port & FIFO, timescale 1ns/1ns was added for the testbenches (these are the ones lifted directly from the [repo](https://github.com/nandland/getting-started-with-fpgas) since they are not in the book.)
+
+## Chapter 7
+
+No comment for this chapter - think this section is more a review at this point if you're already using all these separate OSS tools.

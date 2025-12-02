@@ -6,8 +6,7 @@ Although this repo is to work through the [Getting Started with FPGAs](https://n
 
 There are also notes in here for those working through the book offering alternatives to things introduced in the book that are specific to Lattice tooling.
 
-As I am a beginner to all this, please forgive any errors made in this writeup. A more detailed blog post is also here:
-<TBD>
+As I am a beginner to all this, please forgive any errors made in this writeup. A more detailed blog post is also [here](https://yeh.today/posts/20251118-fpgas/)
 
 # Requirements
 

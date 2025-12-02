@@ -1,6 +1,10 @@
 # Chapter Notes
 
-If you are going through the Getting Started with FPGAs book and are following along by using the open source Project iCEStorm flow, I've marked some of the alternatives or notes in here that I encountered while going through the book; hopefully they help you too.
+If you are going through the [Getting Started with FPGAs](https://nostarch.com/gettingstartedwithfpgas) book and are following along by using the open source Project iCEStorm flow, I've marked some of the alternatives or notes in here that I encountered while going through the book; hopefully they help you too.
+
+## Chapter 1:
+
+No additional notes required here.
 
 ## Chapter 2:
 
@@ -119,7 +123,25 @@ Info: No Fmax available; no interior timing paths found in design.
 Info: Program finished normally.
 ```
 
-This chapter also discusses the accidental creation of a latch, and the warnings you get.
+This chapter also discusses the accidental creation of a latch, and the warnings you get. In the book this seems kind of pretty clear: 
+
+```
+Latch generated from always block for signal o_Q
+```
+
+But in the yosys errors, you end up with errors later in the process with regards to timing since you end up creating a combinatorial loops that require on prior state. A modified equivalent module was created in the repo (src/Danger_Latch) which, if you run make build on, you'll end up throwing these errors instead:
+
+```
+SYNTHESIS:     Running yosys ...
+Warning: wire '\o_Segment1_A' is assigned in a block at src/Danger_Latch/Danger_Latch.v:9.7-9.27.
+Warning: wire '\o_Segment1_A' is assigned in a block at src/Danger_Latch/Danger_Latch.v:11.7-11.27.
+Warning: wire '\o_Segment1_A' is assigned in a block at src/Danger_Latch/Danger_Latch.v:13.7-13.27.
+PLACE & ROUTE: Running nextpnr...
+ERROR: Timing analysis failed due to combinational loops.
+0 warnings, 1 error
+```
+
+I think this set of errors is slightly less clear, but worth demonstrating to see what you should be on the lookout for? y
 
 ## Chapter 5:
 
@@ -132,16 +154,48 @@ The alternate to using EDA Playground is using a combination of Icarus Verilog (
 Some notes here:
 
 - I have a `make sim` command that takes the entirety of your testbench (*.sv files - assuming here you are using System Verilog here, as in the book, plus *v files), simulates it, and provides a view of the gtkwave forms if generated. For ease of use the test bench module is simply the name of the project + _TB, e.g., And_Gate_Project should be And_Gate_Project_TB module for the test bench.  
-- This is not required in the book, but to make gtkwave easier to read, I've arbitrarily added at the top of the *v and *sv files the appropriate `timescale` ranges as needed for the simulation; otherwise gtkwave defaults to seconds. Realistically for your FPGA beginner projects there aren't going to be many things outside of the ns or maybe microsecond range...? (For the projects in Chapter 5, 1ns/1ns works.)
-- There are a bunch of ugly warnings for gtkwave if you are using a diff versoin of glibc; don't mind them and in any case I silenced them in the output since they don't impact its use. You can also just install it directly otherwise (very easy).
+- This is not required in the book, but to make gtkwave easier to read, I've arbitrarily added at the top of the *v and *sv files the appropriate `timescale` ranges as needed for the simulation; otherwise gtkwave defaults to seconds. Realistically for your FPGA beginner projects there aren't going to be many things outside of the ns or maybe microsecond range...? For the projects in Chapter 5, though, 1ns/1ns works.
+- There are a bunch of ugly warnings for gtkwave if you are using a different version of glibc; don't mind them and in any case I silenced them in the output since they don't impact its use. You can also just install it directly otherwise (very easy).
 
-![gtkwaveform](waveforms.png)
+![gtkwaveform](imgs/waveforms.png)
 
-Regarding the self testbench section: assert statements (as depicted in the code) require the flag -s2005-sv or greater to be used. I used the -s2012 command; it's already part of the `make sim` command; without it, the test bench code won't run. The errors you get are similar enough to what is published in the book, although it doesn't helpfully specify that it's an assert that fails, only that your test bench has failed:
+Regarding the self testbench section: assert statements (as depicted in the code) require the flag -s2005-sv or greater to be used. I used the -s2012 command; it's already part of the `make sim` command; without it, the test bench code won't run. The errors you get on failing an assertion are similar enough to what is published in the book, albeit a little less descriptive:
 
 ```
 ERROR: src/And_Gate_Project/And_Gate_Project.sv:32: 
        Time: 40  Scope: And_Gate_Project_TB
 ```
 
-Then on the section of formal verification, the book only lightly touches on it. Not sure which direction you will go in on formal verification when you get to that point, there's yosys-SMTBMC. But since I am learning Haskell around the same time, there's also Clash to consider as well.
+Then on the section of formal verification, the book only lightly touches on it. Not sure which direction you will go in on formal verification when you get to that point, there's [Symbyosys](https://yosyshq.readthedocs.io/en/latest/) (yosys-SMTBMC). But since I am learning Haskell around the same time, there's also [Clash](https://clash-lang.org/) to consider as well.
+
+## Chapter 6
+
+### LSFR Project 
+
+If you've been making *.v files for your builds, you'll run into an error in the Count_and_Toggle along the lines of this:
+
+```
+ERROR: In pure Verilog (not SystemVerilog), parameter/localparam with an initializer must use the parameter/localparam keyword
+```
+
+The fix for this is simply changing the first line of the book code to denote that the COUNT_LIMIT is a parameter:
+
+```
+module Count_And_Toggle #(COUNT_LIMIT = 10)
+```
+
+to 
+
+```
+module Count_And_Toggle #(parameter COUNT_LIMIT = 10)
+```
+
+And then everything should compile normally. It might be a typo; the later implementations described in the chapter (e.g., RAM_2Port) use parameter.
+
+### RAM_2Port & FIFO
+
+For RAM_2Port & FIFO, timescale 1ns/1ns was added for the testbenches (these are the ones lifted directly from the [repo](https://github.com/nandland/getting-started-with-fpgas) since they are not in the book.)
+
+## Chapter 7
+
+No comment for this chapter - think this section is more a review at this point if you're already using all these separate OSS tools.

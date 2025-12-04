@@ -33,7 +33,15 @@ build: build/ $(buildfiles) $(topfile)
 	@if [ -z "$(PROJ)" ]; then echo "Usage: make build PROJ=name"; exit 1; fi
 
 	@printf "%-15s" "SYNTHESIS:"; printf "Running yosys ...\n";
-	@yosys -q -p 'synth_ice40 -top $(PROJ)_Top -json $(BUILD)/$(PROJ).json' $(buildfiles) 2>/dev/null || yosys -q -p 'synth_ice40 -top $(PROJ) -json $(BUILD)/$(PROJ).json' $(buildfiles)
+	@echo "USING BUILD FILES: $(buildfiles)"
+	@if yosys -q -p 'synth_ice40 -top $(PROJ)_Top -json $(BUILD)/$(PROJ).json' $(buildfiles) 2>&1 | tee $(BUILD)/$(PROJ)_Top.log | grep -q "ERROR"; then \
+		echo "$(PROJ)_Top synthesis failed, trying $(PROJ)..."; \
+		cat $(BUILD)/$(PROJ)_Top.log; \
+		yosys -q -p 'synth_ice40 -top $(PROJ) -json $(BUILD)/$(PROJ).json' $(buildfiles); \
+		echo "Synthesized with top module: $(PROJ)"; \
+	else \
+		echo "Synthesized with top module: $(PROJ)_Top"; \
+	fi
 	@yosys -p 'read_json $(BUILD)/$(PROJ).json; stat' > $(BUILD)/$(PROJ).stat
 
 	@printf "%-15s" "PLACE & ROUTE:"; printf "Running nextpnr...\n"

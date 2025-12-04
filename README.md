@@ -67,8 +67,4 @@ make ship PROJ=ProjectName
 
 I separated the two mostly because I don't always have my FPGA plugged in at the time and want to run synthesis more frequently. 
 
-# Troubleshooting
-
-If you need to identify the USB port, it's USB1, *not* USB0, for the nandland go board. This also mentioned in the book (see page 28). iceprog does not care, it will automatically find it for you, but if you have trouble with the device being recognized, then this is what you should set.
-
 # Current Chapter Work: 8

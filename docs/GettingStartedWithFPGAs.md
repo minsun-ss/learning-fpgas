@@ -199,3 +199,9 @@ For RAM_2Port & FIFO, timescale 1ns/1ns was added for the testbenches (these are
 ## Chapter 7
 
 No comment for this chapter - think this section is more a review at this point if you're already using all these separate OSS tools.
+
+## Chapter 8
+
+No comment for this chapter - although it is not discussed in the book, looking at the waveform generated for Turnstile is very useful at understanding the states. 
+
+The memory game is really cool :)

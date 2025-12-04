@@ -129,7 +129,7 @@ This chapter also discusses the accidental creation of a latch, and the warnings
 Latch generated from always block for signal o_Q
 ```
 
-But in the yosys errors, you end up with errors later in the process with regards to timing since you end up creating a combinatorial loops that require on prior state. A modified equivalent module was created in the repo (src/Danger_Latch) which, if you run make build on, you'll end up throwing these errors instead:
+But in oss tooling, you end up with errors later in the process with regards to timing since you end up creating a combinatorial loop that require knowledge of a prior state. A modified equivalent module was created in the repo (src/Danger_Latch) which, if you run make build on, you'll end up throwing these errors instead:
 
 ```
 SYNTHESIS:     Running yosys ...
@@ -141,7 +141,7 @@ ERROR: Timing analysis failed due to combinational loops.
 0 warnings, 1 error
 ```
 
-I think this set of errors is slightly less clear, but worth demonstrating to see what you should be on the lookout for? y
+I think these errors are slightly less clear, but worth demonstrating to see what you should be on the lookout for. 
 
 ## Chapter 5:
 
@@ -154,7 +154,7 @@ The alternate to using EDA Playground is using a combination of Icarus Verilog (
 Some notes here:
 
 - I have a `make sim` command that takes the entirety of your testbench (*.sv files - assuming here you are using System Verilog here, as in the book, plus *v files), simulates it, and provides a view of the gtkwave forms if generated. For ease of use the test bench module is simply the name of the project + _TB, e.g., And_Gate_Project should be And_Gate_Project_TB module for the test bench.  
-- This is not required in the book, but to make gtkwave easier to read, I've arbitrarily added at the top of the *v and *sv files the appropriate `timescale` ranges as needed for the simulation; otherwise gtkwave defaults to seconds. Realistically for your FPGA beginner projects there aren't going to be many things outside of the ns or maybe microsecond range...? For the projects in Chapter 5, though, 1ns/1ns works.
+- This is not required in the book, but to make gtkwave easier to read, I've arbitrarily added at the top of the *.v and *.sv files the appropriate `timescale` ranges as needed for the simulation; otherwise gtkwave defaults to seconds. Realistically for your FPGA beginner projects there aren't going to be many things outside of the ns or maybe microsecond range...? For the projects in Chapter 5, though, 1ns/1ns works.
 - There are a bunch of ugly warnings for gtkwave if you are using a different version of glibc; don't mind them and in any case I silenced them in the output since they don't impact its use. You can also just install it directly otherwise (very easy).
 
 ![gtkwaveform](imgs/waveforms.png)
@@ -199,3 +199,9 @@ For RAM_2Port & FIFO, timescale 1ns/1ns was added for the testbenches (these are
 ## Chapter 7
 
 No comment for this chapter - think this section is more a review at this point if you're already using all these separate OSS tools.
+
+## Chapter 8
+
+No comment for this chapter - although it is not discussed in the book, looking at the waveform generated for the turnstile project is very useful at understanding the states. 
+
+The memory game is really cool :)

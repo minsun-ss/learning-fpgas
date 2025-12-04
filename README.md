@@ -54,7 +54,7 @@ make sim PROJ=ProjectName
 
 This will simulate all *.v and *.sv files in src/ProjectName folder. If you have a _Top module specified, the filename should also contain _Top and it will default to that as the top module; if it's not included it will use the project name as the topmost module.
 
-Building an existing FPGA workflow all the way up to programming.
+Building an existing FPGA workflow all the way up to programming:
 
 ```
 make build PROJ=ProjectName

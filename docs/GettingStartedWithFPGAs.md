@@ -154,7 +154,7 @@ The alternate to using EDA Playground is using a combination of Icarus Verilog (
 Some notes here:
 
 - I have a `make sim` command that takes the entirety of your testbench (*.sv files - assuming here you are using System Verilog here, as in the book, plus *v files), simulates it, and provides a view of the gtkwave forms if generated. For ease of use the test bench module is simply the name of the project + _TB, e.g., And_Gate_Project should be And_Gate_Project_TB module for the test bench.  
-- This is not required in the book, but to make gtkwave easier to read, I've arbitrarily added at the top of the *v and *sv files the appropriate `timescale` ranges as needed for the simulation; otherwise gtkwave defaults to seconds. Realistically for your FPGA beginner projects there aren't going to be many things outside of the ns or maybe microsecond range...? For the projects in Chapter 5, though, 1ns/1ns works.
+- This is not required in the book, but to make gtkwave easier to read, I've arbitrarily added at the top of the *.v and *.sv files the appropriate `timescale` ranges as needed for the simulation; otherwise gtkwave defaults to seconds. Realistically for your FPGA beginner projects there aren't going to be many things outside of the ns or maybe microsecond range...? For the projects in Chapter 5, though, 1ns/1ns works.
 - There are a bunch of ugly warnings for gtkwave if you are using a different version of glibc; don't mind them and in any case I silenced them in the output since they don't impact its use. You can also just install it directly otherwise (very easy).
 
 ![gtkwaveform](imgs/waveforms.png)
@@ -202,6 +202,6 @@ No comment for this chapter - think this section is more a review at this point 
 
 ## Chapter 8
 
-No comment for this chapter - although it is not discussed in the book, looking at the waveform generated for Turnstile is very useful at understanding the states. 
+No comment for this chapter - although it is not discussed in the book, looking at the waveform generated for the turnstile project is very useful at understanding the states. 
 
 The memory game is really cool :)

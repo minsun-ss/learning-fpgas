@@ -209,3 +209,7 @@ The memory game is really cool :)
 ## Chapter 9
 
 No comment for this chapter; like 7, it's largely meant to be informative.
+
+## Chapter 10
+
+No comment for this chapter; like 7 and 9; it's meant to be informative.

@@ -205,3 +205,7 @@ No comment for this chapter - think this section is more a review at this point 
 No comment for this chapter - although it is not discussed in the book, looking at the waveform generated for the turnstile project is very useful at understanding the states. 
 
 The memory game is really cool :)
+
+## Chapter 9
+
+No comment for this chapter; like 7, it's largely meant to be informative.

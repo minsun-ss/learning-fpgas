@@ -67,4 +67,4 @@ make ship PROJ=ProjectName
 
 I separated the two mostly because I don't always have my FPGA plugged in at the time and want to run synthesis more frequently. 
 
-# Current Chapter Work: 9
+# Current Chapter Work: 10

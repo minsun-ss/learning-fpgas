@@ -247,4 +247,26 @@ As noted above in Chapter 2, it's USB1, not 0, for the nandland go board.
 
 ## Project 8: UART Receiver, Part 2
 
-TBD
+https://nandland.com/project-8-uart-part-2-transmit-data-to-computer/
+
+There is a bug in the Top file since the UART_TX constructor requires an i_Rst_L to be defined before the i_Clock that isn't specified in the Top file on the page. As noted in the comments on the page, you can just add it in to the Top file and directly just set the bit to 1 if you don't care about resetting:
+
+```
+  UART_TX #(.CLKS_PER_BIT(217)) UART_TX_Inst
+  (.i_Rst_L(1'b1),
+   .i_Clock(i_Clk),
+   .i_TX_DV(w_RX_DV),    
+   .i_TX_Byte(w_RX_Byte), 
+   .o_TX_Active(w_TX_Active),
+   .o_TX_Serial(w_TX_Serial),
+   .o_TX_Done());
+```
+
+Not mentioned in the comments but good to also do: set the i_Rst_L in the UART_Loopback test bench, since it's also not set there (????), as well as  init the w_RX_DV; adding the below two lines to the testbench silences all the annoying warnings when you try to simulate it. 
+
+```
+  reg r_Rst_L = 1; // TX has this defined before the clock
+  wire w_RX_DV;
+```
+
+I also took out the include in the test bench, because if you're already including all the *.sv and *.v files in the project this is not necessary. I also addeded `timescale 1ns/1ns to everything to also silence the warnings from simulation.

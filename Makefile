@@ -21,7 +21,7 @@ build/:
 
 sim: $(svfiles)
 	@echo "BUILD: Building $(PROJ) with iverilog..."
-	echo $(svfiles)
+	@ echo "USING BUILD FILES: $(svfiles)"
 	@iverilog -Wall -g2012 -s $(PROJ)_TB -o $(BUILD)/$(PROJ) $^
 	@echo "SIMULATE: running vvp"
 	@vvp $(BUILD)/$(PROJ)
@@ -57,6 +57,9 @@ ship:
 	@echo "PROGRAMMING: programming fpga..."
 	@iceprog $(BUILD)/$(PROJ).bin
 
+talk:
+	@echo "TALKING TO MY FPGA..."
+	@screen /dev/ttyUSB1 115200
 %.blif %.json : %.v
 	yosys -p 'synth_ice40 -top top -blif $@ -json $*.json' $<
 

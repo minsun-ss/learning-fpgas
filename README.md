@@ -33,7 +33,7 @@ A note about Project Icestorm recommendations: it suggests installing arachne an
 
 If you want to build and install the tools separately, or just want the latest version, here are my notes for them when I did it; rather fortunately (unfortunately?) I did the building before realizing they were all already in the oss-cad-suite, with the exception of verible.
 
-Re: miscellaneous, the installation of verible is highly dependent on your workflow; there are plugins that exist on some IDEs, so it is entirely up to you. Highly recommend having it if you're not using an existing ide plugin; I did most of the work in the book without verible and found not having something like it on hand extremely inconvenient. 
+Re: miscellaneous, the installation of verible is highly dependent on your workflow; there are plugins that exist on some IDEs, so it is entirely up to you. BUT I highly recommend having it if you're not using an existing ide plugin; I did most of the work in the book without verible and found the experience terribly inconvenient. Formatting/linting tools are goated, yes, but more specifically: error messages in these tools are horrifically obscure. You really need all the help you can get. "I give up" is legitimately a real error message in one of these tools...
 
 ## Notes for Nextpnr: 
 - NextPNR requires the DARCH flag to be set for building for iCE40 boards. `cmake -DARCH=ice40 -DCMAKE_INSTALL_PREFIX=/usr/local .` For Debian, this didn't work out of the box for me; I had to add the specification of a separate build folder to make work, which all following commands afterward must be in to run (e.g., make build and make install)
@@ -71,6 +71,4 @@ For programming:
 make ship PROJ=ProjectName
 ```
 
-I separated the two mostly because I don't always have my FPGA plugged in at the time and want to run synthesis more frequently. 
-
-# Current Chapter Work: 10
+I separated the two mostly because I don't always have my FPGA plugged in at the time and want to run synthesis more frequently.

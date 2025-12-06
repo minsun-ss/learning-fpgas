@@ -213,3 +213,38 @@ No comment for this chapter; like 7, it's largely meant to be informative.
 ## Chapter 10
 
 No comment for this chapter; like 7 and 9; it's meant to be informative.
+
+## Chapter 11
+
+No comment for this chapter; like prior informative chapters, not much additional comment to add. 
+
+## And Beyond
+
+The book ends at chapter 11 and has an appendix about getting into the field, but there are additional projects on the nandland go page, which I'll cover here. The projects that are notable are from 7 onward: UART and VGA, both of which are handy to do with the nandland go board because it comes with UART and a VGA output (the latter which you would've needed a PMOD otherwise on a diff board). So without further ado:
+
+## Project 7: UART Receiver, Part 1
+
+https://nandland.com/project-7-uart-part-1-receive-data-from-computer/
+
+It is not too obvious on how to send data to the FPGA based on the tutorial, at least to a newcomer; randomly mashing keys on the keyboard won't work right out of the box. The information needed to be able to mash buttons is in the UART Configuration Parameters:
+
+```
+Baud Rate            (9600, 19200, 115200, others)
+Number of Data Bits  (7, 8)
+Parity Bit           (On, Off)
+Stop Bits            (0, 1, 2)
+Flow Control         (None, On, Hardware)
+```
+
+I use `screen` here because it's pretty straightforward, but I think you can use any simple terminal to be able to send data directly to your board:
+
+```
+screen /dev/ttyUSB1 115200
+// now start mashing buttons
+```
+
+As noted above in Chapter 2, it's USB1, not 0, for the nandland go board. 
+
+## Project 8: UART Receiver, Part 2
+
+TBD

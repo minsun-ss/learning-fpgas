@@ -2,7 +2,7 @@
 
 Part of W1'25 Recurse projects!
 
-Although this repo is to work through the [Getting Started with FPGAs](https://nostarch.com/gettingstartedwithfpgas) book, it is also to provide some details on the (moderately more complicated) workflow required to work through the project on open source tooling. 
+Although this repo is to work through the [Getting Started with FPGAs](https://nostarch.com/gettingstartedwithfpgas) book, it is also to provide some details on the (moderately more complicated) workflow required to work through the project on open source tooling. In addition to the book, this will also cover the last 4 or so projects on the [nandland go projects](https://nandland.com/the-go-board/) page, since they are not covered in the book and are good to do. 
 
 There are also notes in here for those working through the book offering alternatives to things introduced in the book that are specific to Lattice tooling.
 
@@ -22,12 +22,18 @@ For synthesizing, placing, routing and programming:
 
 For simulation, testbench and looking at waveforms: 
 
-- iverilog (icarus verilog) https://steveicarus.github.io/iverilog/usage/installation.html
-- gtkwave (wave viewer) : https://gtkwave.sourceforge.net/
+- iverilog (icarus verilog): https://steveicarus.github.io/iverilog/usage/installation.html
+- gtkwave (wave viewer): https://gtkwave.sourceforge.net/
+
+For linting/formatting/lsp:
+
+- verible: https://chipsalliance.github.io/verible/ (optional)
 
 A note about Project Icestorm recommendations: it suggests installing arachne and nextpnr, but in 2025 you really only need nextpnr (arachne is deprecated). 
 
-If you want to build and install the tools separately, or just want the latest version, here are my notes for them when I did it; rather fortunately (unfortunately?) I did the building before realizing they were all already in the oss-cad-suite.
+If you want to build and install the tools separately, or just want the latest version, here are my notes for them when I did it; rather fortunately (unfortunately?) I did the building before realizing they were all already in the oss-cad-suite, with the exception of verible.
+
+Re: miscellaneous, the installation of verible is highly dependent on your workflow; there are plugins that exist on some IDEs, so it is entirely up to you. Highly recommend having it if you're not using an existing ide plugin; I did most of the work in the book without verible and found not having something like it on hand extremely inconvenient. 
 
 ## Notes for Nextpnr: 
 - NextPNR requires the DARCH flag to be set for building for iCE40 boards. `cmake -DARCH=ice40 -DCMAKE_INSTALL_PREFIX=/usr/local .` For Debian, this didn't work out of the box for me; I had to add the specification of a separate build folder to make work, which all following commands afterward must be in to run (e.g., make build and make install)

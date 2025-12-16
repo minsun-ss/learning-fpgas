@@ -60,7 +60,7 @@ Info: Placing PLLs..
 Info: Packing special functions..
 Info: Packing PLLs..
 Info: Promoting globals..
-Info: Constraining chains...
+Info: Constraining chains...build
 Info:        0 LCs used to legalise carry chains.
 Info: Checksum: 0xb9179925
 
@@ -172,6 +172,10 @@ Then on the section of formal verification, the book only lightly touches on it.
 
 ### LSFR Project 
 
+```
+make build PROJ=LED_Toggle_Project
+```
+
 If you've been making *.v files for your builds, you'll run into an error in the Count_and_Toggle along the lines of this:
 
 ```
@@ -194,6 +198,10 @@ And then everything should compile normally. It might be a typo; the later imple
 
 ### RAM_2Port & FIFO
 
+```
+make sim PROJ=FIFO
+```
+
 For RAM_2Port & FIFO, timescale 1ns/1ns was added for the testbenches (these are the ones lifted directly from the [repo](https://github.com/nandland/getting-started-with-fpgas) since they are not in the book.)
 
 ## Chapter 7
@@ -201,6 +209,10 @@ For RAM_2Port & FIFO, timescale 1ns/1ns was added for the testbenches (these are
 No comment for this chapter - think this section is more a review at this point if you're already using all these separate OSS tools.
 
 ## Chapter 8
+
+```
+make build PROJ=State_Machine_Game
+```
 
 No comment for this chapter - although it is not discussed in the book, looking at the waveform generated for the turnstile project is very useful at understanding the states. 
 
@@ -226,6 +238,10 @@ The book ends at chapter 11 and has an appendix about getting into the field, bu
 
 https://nandland.com/project-7-uart-part-1-receive-data-from-computer/
 
+```
+make build PROJ=UART_Receiver
+```
+
 It is not too obvious on how to send data to the FPGA based on the tutorial, at least to a newcomer; randomly mashing keys on the keyboard won't work right out of the box. The information needed to be able to mash buttons is in the UART Configuration Parameters:
 
 ```
@@ -248,6 +264,10 @@ As noted above in Chapter 2, it's USB1, not 0, for the nandland go board.
 ## Project 8: UART Receiver, Part 2
 
 https://nandland.com/project-8-uart-part-2-transmit-data-to-computer/
+
+```
+make build PROJ=UART_Loopback
+```
 
 There is a bug in the Top file since the UART_TX constructor requires an i_Rst_L to be defined before the i_Clock that isn't specified in the Top file on the page. As noted in the comments on the page, you can just add it in to the Top file and directly just set the bit to 1 if you don't care about resetting:
 
@@ -275,6 +295,10 @@ I also took out the include in the test bench, because if you're already includi
 
 https://nandland.com/project-9-vga-introduction-driving-test-patterns-to-vga-monitor/
 
+```
+make build PROJ=VGA_Test_Patterns
+```
+
 VGA time! You'll need a VGA screen on top of the board for this; there are a lot of toy ones out there you can use. 
 
 To silence timing warnings:
@@ -298,3 +322,13 @@ Add this line to the corresponding VGA_Test_Patterns_Top file:
 You might also re-definition errors as well. For those, comment out or remove all import directives that import specific files; the make files already include them into the command so don't include them twice if you don't have to.
 
 There is also a mispelling in the testbench; should be `VGA_Test_Patterns_TB`, not `VGA_Test_Pattterns_TB`.
+
+As with the prior UART projects, to communicate to the device (and the VGA, use the `screen` command (or `make talk`)).
+
+## Project 10 - Pong
+
+https://nandland.com/project-10-pong/
+
+If you've worked from the book and moved to the online projects here, then the Debounce_Switch referenced in the code is almost, but not quite, the same as the Debounce_Filter referenced in the book. You can use either, or just lift the Debounce_Switch.v from the website.
+
+Nothing in particular to comment  here, although the UART RX to start the game means you have to set up `screen` to hit a key on the keyboard to start instead of maybe a combination of two buttons.

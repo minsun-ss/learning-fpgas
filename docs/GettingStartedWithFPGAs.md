@@ -270,3 +270,31 @@ Not mentioned in the comments but good to also do: set the i_Rst_L in the UART_L
 ```
 
 I also took out the include in the test bench, because if you're already including all the *.sv and *.v files in the project this is not necessary. I also addeded `timescale 1ns/1ns to everything to also silence the warnings from simulation.
+
+## Project 9: Introduction to VGA
+
+https://nandland.com/project-9-vga-introduction-driving-test-patterns-to-vga-monitor/
+
+VGA time! You'll need a VGA screen on top of the board for this; there are a lot of toy ones out there you can use. 
+
+To silence timing warnings:
+
+Add `timebench` directive to every file (1ns/1ns). Literally, every file. 
+
+To silence implicit definition warnings:
+
+Add this line to the testbench:
+
+```
+  wire w_HSync_Start, w_VSync_Start, w_HSync_TP, w_VSync_TP;
+```
+
+Add this line to the corresponding VGA_Test_Patterns_Top file:
+
+```
+  wire w_HSync_Start, w_VSync_Start, w_HSync_TP, w_VSync_TP, w_HSync_Porch, w_VSync_Porch;
+```
+
+You might also re-definition errors as well. For those, comment out or remove all import directives that import specific files; the make files already include them into the command so don't include them twice if you don't have to.
+
+There is also a mispelling in the testbench; should be `VGA_Test_Patterns_TB`, not `VGA_Test_Pattterns_TB`.
